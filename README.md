@@ -36,23 +36,23 @@ Ideal for learning:
 
 ---
 
-## 📂 Folder Structure
+## Folder Structure
 
-cpp-webserver/
-├── public/ # Static HTML/CSS/JS files
-│ ├── index.html
-│ └── styles.css
-├── include/
-│ ├── server.hpp
-│ ├── router.hpp
-│ └── logger.hpp
-├── src/
-│ ├── main.cpp
-│ ├── server.cpp
-│ ├── router.cpp
-│ └── logger.cpp
-├── CMakeLists.txt
-└── README.md
+cpp-webserver/ <br>
+├── public/ # Static HTML/CSS/JS files <br>
+│ ├── index.html <br>
+│ └── styles.css <br>
+├── include/ <br>
+│ ├── server.hpp <br>
+│ ├── router.hpp <br>
+│ └── logger.hpp <br>
+├── src/ <br>
+│ ├── main.cpp <br>
+│ ├── server.cpp <br>
+│ ├── router.cpp <br>
+│ └── logger.cpp <br>
+├── CMakeLists.txt <br>
+└── README.md <br>
 
 ---
 
