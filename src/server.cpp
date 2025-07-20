@@ -46,6 +46,7 @@ bool Server::start() {
 
     std::cout << "Listening on port " << port << "...\n";
     running = true;
+    registerRoutes();
 
     while (running) {
         sockaddr_in client_addr;
@@ -73,7 +74,11 @@ void Server::handleClient(SOCKET client_socket) {
     std::string method, path, version;
     request_stream >> method >> path >> version;
 
-    // Only handle GET
+    if (router.routeExists(path)) {
+        router.handle(path, client_socket);
+        return;
+    }
+
     if (method != "GET") {
         closesocket(client_socket);
         return;
@@ -120,6 +125,39 @@ response << "HTTP/1.1 200 OK\r\n"
     std::string response_str = response.str();
     send(client_socket, response_str.c_str(), response_str.size(), 0);
     closesocket(client_socket);
+}
+
+void Server::registerRoutes() {
+    router.addRoute("/about", [](SOCKET client_socket) {
+        std::string content =
+            "<html><body><h1>About Page</h1><p>This is a custom route!</p></body></html>";
+
+        std::ostringstream response;
+        response << "HTTP/1.1 200 OK\r\n"
+                 << "Content-Type: text/html\r\n"
+                 << "Content-Length: " << content.size() << "\r\n"
+                 << "Connection: close\r\n\r\n"
+                 << content;
+
+        std::string response_str = response.str();
+        send(client_socket, response_str.c_str(), response_str.size(), 0);
+        closesocket(client_socket);
+    });
+
+    router.addRoute("/api/hello", [](SOCKET client_socket) {
+        std::string content = R"({"message": "Hello from C++ server!"})";
+
+        std::ostringstream response;
+        response << "HTTP/1.1 200 OK\r\n"
+                 << "Content-Type: application/json\r\n"
+                 << "Content-Length: " << content.size() << "\r\n"
+                 << "Connection: close\r\n\r\n"
+                 << content;
+
+        std::string response_str = response.str();
+        send(client_socket, response_str.c_str(), response_str.size(), 0);
+        closesocket(client_socket);
+    });
 }
 
 void Server::stop() {
