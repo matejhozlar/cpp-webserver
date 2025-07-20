@@ -14,3 +14,7 @@
 .content p {
   font-size: 25px;
 }
+
+.content a {
+  color: blue;
+}
