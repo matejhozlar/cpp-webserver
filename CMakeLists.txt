@@ -10,6 +10,7 @@ add_executable(cpp_webserver
     src/main.cpp
     src/server.cpp
     src/router.cpp
+    src/logger.cpp
 )
 
 if (WIN32)

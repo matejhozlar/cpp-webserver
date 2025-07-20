@@ -1,3 +1,4 @@
+#include "logger.hpp"
 #include "server.hpp"
 #include <iostream>
 #include <ws2tcpip.h>
@@ -16,13 +17,13 @@ Server::~Server() {
 bool Server::start() {
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
-        std::cerr << "WSAStartup failed.\n";
+        Logger::error("WSAStartup failed");
         return false;
     }
 
     server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (server_socket == INVALID_SOCKET) {
-        std::cerr << "Socket creation failed.\n";
+        Logger::error("Socket creation failed");
         WSACleanup();
         return false;
     }
@@ -33,18 +34,18 @@ bool Server::start() {
     server_addr.sin_addr.s_addr = INADDR_ANY;
 
     if (bind(server_socket, (sockaddr*)&server_addr, sizeof(server_addr)) == SOCKET_ERROR) {
-        std::cerr << "Bind failed.\n";
+        Logger::error("Bind failed");
         stop();
         return false;
     }
 
     if (listen(server_socket, SOMAXCONN) == SOCKET_ERROR) {
-        std::cerr << "Listen failed.\n";
+        Logger::error("Listen failed");
         stop();
         return false;
     }
 
-    std::cout << "Listening on port " << port << "...\n";
+    Logger::info("Listening on port " + std::to_string(port));
     running = true;
     registerRoutes();
 
