@@ -10,14 +10,14 @@ int main () {
     int wsaResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
     if (wsaResult != 0) {
         std::cerr << "WSAStartup failed: " << wsaResult << std::endl;
-        return false;
+        return 1;
     }
 
     SOCKET server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (server_socket == INVALID_SOCKET) {
         std::cerr << "Socket creation failed.\n";
         WSACleanup();
-        return false;
+        return 1;
     }
 
     sockaddr_in server_addr{};
@@ -29,20 +29,19 @@ int main () {
         std::cerr << "Bind failed.\n";
         closesocket(server_socket);
         WSACleanup();
-        return false;
+        return 1;
     }
 
     if (listen(server_socket, SOMAXCONN) == SOCKET_ERROR) {
         std::cerr << "Listen failed.\n";
         closesocket(server_socket);
         WSACleanup();
-        return false;
+        return 1;
     }
 
     std::cout << "Listening on port 8080...\n";
 
     SOCKET client_socket;
-    sockaddr client_socket;
     sockaddr_in client_addr;
     int client_size = sizeof(client_addr);
 
@@ -60,6 +59,6 @@ int main () {
 
     closesocket(server_socket);
     WSACleanup();
-    return true;
+    return 0;
 }
 

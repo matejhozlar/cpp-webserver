@@ -1,0 +1,37 @@
+# Ignore build artifacts
+/build/
+/CMakeFiles/
+/CMakeCache.txt
+/Makefile
+/cmake_install.cmake
+/*.sln
+/*.vcxproj*
+/*.dir/
+*.obj
+*.o
+*.exe
+*.pdb
+*.ilk
+*.log
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore OS/system files
+.DS_Store
+Thumbs.db
+
+# Ignore user-specific files
+*.user
+*.userosscache
+*.suo
+
+# Ignore compiled output anywhere
+**/bin/
+**/build/
+**/Debug/
+**/Release/
+
+# Optional: ignore generated docs or test output
+/docs/
+/test_output/
